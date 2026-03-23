@@ -1,0 +1,94 @@
+<%# 1. Categories Section (Loop se baahar - Top par fixed) %>
+<div class="sticky top-20 bg-white z-20 border-b pb-4 pt-2 shadow-sm">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center gap-8 overflow-x-auto no-scrollbar py-2">
+      
+      <% categories = [
+        { name: "Amazing pools", icon: "🏊‍♂️" },
+        { name: "Icons", icon: "💎" },
+        { name: "Omg!", icon: "😲" },
+        { name: "Amazing views", icon: "🏔️" },
+        { name: "Castles", icon: "🏰" },
+        { name: "Tiny homes", icon: "🏠" },
+        { name: "Design", icon: "🎨" },
+        { name: "Surfing", icon: "🏄‍♂️" },
+        { name: "Farms", icon: "🚜" },
+        { name: "Luxe", icon: "✨" },
+        { name: "Bed & breakfasts", icon: "☕" },
+        { name: "Caves", icon: "🧗" }
+      ] %>
+
+      <% categories.each do |category| %>
+        <div class="flex flex-col items-center gap-2 min-w-[70px] cursor-pointer group border-b-2 border-transparent hover:border-gray-300 pb-2 transition">
+          <span class="text-2xl group-hover:scale-110 transition duration-200 opacity-70 group-hover:opacity-100">
+            <%= category[:icon] %>
+          </span>
+          <span class="text-xs font-semibold text-gray-500 group-hover:text-black whitespace-nowrap">
+            <%= category[:name] %>
+          </span>
+        </div>
+      <% end %>
+
+    </div>
+  </div>
+</div>
+
+<%# 2. Listings Grid Section %>
+<div class="max-w-[2520px] mx-auto xl:px-20 md:px-10 sm:px-2 px-4 py-12">
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-x-6 gap-y-10">
+    
+    <% @listings.each do |listing| %>
+      <%# Clickable Link Wrapper %>
+      <%= link_to listing_path(listing), class: "group cursor-pointer flex flex-col gap-2" do %>
+        
+        <%# Image Container %>
+        <div class="aspect-square relative overflow-hidden rounded-xl bg-gray-200 shadow-sm border border-gray-100">
+          <% if listing.image_url.present? %>
+            <img src="<%= listing.image_url %>" class="object-cover h-full w-full group-hover:scale-105 transition duration-300 ease-in-out">
+          <% else %>
+            <div class="flex items-center justify-center h-full text-gray-400 text-xs italic">No Image</div>
+          <% end %>
+          
+          <%# Heart Icon Overlay %>
+          <div class="absolute top-3 right-3 z-10">
+            <svg viewBox="0 0 32 32" class="h-6 w-6 fill-black/30 stroke-white stroke-[2px] hover:fill-[#FF385C] transition duration-200">
+              <path d="m16 28c7-4.733 14-10 14-17 0-3.866-3.134-7-7-7-2.359 0-4.45 1.123-5.76 2.854l-1.24 1.646-1.24-1.646c-1.31-1.731-3.401-2.854-5.76-2.854-3.866 0-7 3.134-7 7 0 7 7 12.267 14 17z"></path>
+            </svg>
+          </div>
+        </div>
+
+        <%# Info Section %>
+        <div class="flex flex-col gap-0.5">
+          <div class="flex justify-between items-center">
+            <span class="font-bold text-[15px] text-gray-900"><%= listing.city %>, India</span>
+            <div class="flex items-center gap-1 text-[14px]">
+              <span class="text-[10px]">★</span>
+              <span class="font-light text-gray-700"><%= listing.rating || "5.0" %></span>
+            </div>
+          </div>
+          
+          <p class="text-gray-500 text-[14px] font-light truncate leading-tight"><%= listing.headline %></p>
+          <p class="text-gray-500 text-[14px] font-light">Available: <%= listing.created_at.strftime("%b %d") %></p>
+          
+          <p class="mt-1 text-[15px]">
+            <span class="font-bold text-gray-900">₹<%= number_with_delimiter(listing.price_cents / 100) %></span> 
+            <span class="font-light text-gray-600">night</span>
+          </p>
+        </div>
+
+      <% end %><%# Link ends here %>
+    <% end %>
+
+  </div>
+</div>
+
+<%# 3. Custom Styles for Scrollbar %>
+<style>
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+</style>

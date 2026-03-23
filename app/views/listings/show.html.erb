@@ -1,0 +1,101 @@
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <%# 1. Header: Title and Actions %>
+  <div class="flex justify-between items-end mb-6">
+    <div>
+      <h1 class="text-2xl font-semibold text-gray-900"><%= @listing.headline %></h1>
+      <div class="flex items-center gap-2 text-sm underline font-medium mt-1">
+        <span>★ <%= @listing.rating %></span>
+        <span>•</span>
+        <span><%= @listing.city %>, India</span>
+      </div>
+    </div>
+    <div class="flex gap-4 text-sm font-medium underline">
+      <button class="hover:bg-gray-100 p-2 rounded-lg transition">Share</button>
+      <button class="hover:bg-gray-100 p-2 rounded-lg transition">Save</button>
+    </div>
+  </div>
+
+  <%# 2. Airbnb Style Image Gallery %>
+  <div class="grid grid-cols-4 grid-rows-2 gap-2 h-[450px] rounded-xl overflow-hidden mb-8">
+    <%# Main Big Image %>
+    <div class="col-span-2 row-span-2">
+      <img src="<%= @listing.image_url %>" class="w-full h-full object-cover hover:opacity-90 transition cursor-pointer">
+    </div>
+    <%# Secondary Images (Placeholders for now) %>
+    <div><img src="https://loremflickr.com/800/800/interior?random=1" class="w-full h-full object-cover hover:opacity-90 cursor-pointer"></div>
+    <div class="rounded-tr-xl"><img src="https://loremflickr.com/800/800/bedroom?random=2" class="w-full h-full object-cover hover:opacity-90 cursor-pointer"></div>
+    <div><img src="https://loremflickr.com/800/800/livingroom?random=3" class="w-full h-full object-cover hover:opacity-90 cursor-pointer"></div>
+    <div class="relative rounded-br-xl">
+      <img src="https://loremflickr.com/800/800/bathroom?random=4" class="w-full h-full object-cover hover:opacity-90 cursor-pointer">
+      <button class="absolute bottom-4 right-4 bg-white border border-black px-4 py-1.5 rounded-lg text-sm font-semibold shadow-md">
+        Show all photos
+      </button>
+    </div>
+  </div>
+
+  <%# 3. Content Section %>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+    <%# Left Side: Property Details %>
+    <div class="md:col-span-2">
+      <div class="border-b pb-6">
+        <h2 class="text-xl font-semibold">Entire rental unit in <%= @listing.city %>, India</h2>
+        <p class="text-gray-600 font-light">2 guests · 1 bedroom · 2 beds · 1 bathroom</p>
+      </div>
+
+      <%# Guest Favourite Badge (As per your screenshot) %>
+      <div class="py-6 border-b">
+        <div class="flex items-center gap-4 border rounded-xl p-4 shadow-sm">
+           <span class="text-2xl">🏆</span>
+           <div class="flex-1">
+             <p class="font-semibold">Guest favourite</p>
+             <p class="text-sm text-gray-500 font-light">One of the most loved homes on Airbnb</p>
+           </div>
+           <div class="text-center border-l pl-4">
+             <p class="font-bold text-lg"><%= @listing.rating %></p>
+             <p class="text-[10px] uppercase font-bold text-gray-400">Rating</p>
+           </div>
+        </div>
+      </div>
+
+      <div class="py-6 border-b flex items-center gap-4">
+        <div class="w-12 h-12 bg-gray-200 rounded-full overflow-hidden">
+          <img src="https://i.pravatar.cc/150?u=<%= @listing.id %>" class="w-full h-full object-cover">
+        </div>
+        <div>
+          <p class="font-semibold text-gray-900">Hosted by Snigdha</p>
+          <p class="text-sm text-gray-500 font-light">Superhost · 1 year hosting</p>
+        </div>
+      </div>
+    </div>
+
+    <%# Right Side: Reservation Card (Sticky) %>
+    <div class="relative">
+      <div class="sticky top-24 border rounded-xl p-6 shadow-xl flex flex-col gap-4">
+        <p class="text-xl">
+          <span class="font-bold">₹<%= number_with_delimiter(@listing.price_cents / 100) %></span> 
+          <span class="text-base font-light text-gray-600">night</span>
+        </p>
+        
+        <div class="border rounded-lg overflow-hidden grid grid-cols-2 border-gray-400">
+          <div class="border-b border-r border-gray-400 p-2">
+            <p class="text-[10px] font-bold uppercase">Check-in</p>
+            <p class="text-sm">4/8/2026</p>
+          </div>
+          <div class="border-b border-gray-400 p-2">
+            <p class="text-[10px] font-bold uppercase">Checkout</p>
+            <p class="text-sm">4/10/2026</p>
+          </div>
+          <div class="col-span-2 p-2">
+            <p class="text-[10px] font-bold uppercase">Guests</p>
+            <p class="text-sm">1 guest</p>
+          </div>
+        </div>
+
+        <button class="w-full bg-[#FF385C] text-white py-3 rounded-lg font-semibold text-lg hover:bg-[#E31C5F] transition active:scale-95">
+          Reserve
+        </button>
+        <p class="text-center text-sm text-gray-500 font-light underline mt-2 cursor-pointer">Prices include all fees</p>
+      </div>
+    </div>
+  </div>
+</div> 

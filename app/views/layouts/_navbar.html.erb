@@ -1,0 +1,60 @@
+<header class="bg-white border-b border-gray-100 sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex h-20 justify-between items-center">
+      <%= link_to root_path, class: "flex-shrink-0" do %>
+        <svg width="35" height="32" viewBox="0 0 1007 1080" fill="#FF385C"><path d="M949.278 666.715C875.957 506.859 795.615 344.664 713.713 184.809C698.893 155.177 670.813 98.2527 645.852 67.8412C609.971 24.1733 556.93 0.779785 503.109 0.779785C449.288 0.779785 396.247 24.1733 360.366 67.8412C335.406 98.2527 307.325 155.177 292.505 184.809C210.603 344.664 130.262 506.859 56.9404 666.715C47.5802 687.769 24.9598 737.675 16.3796 760.289C6.23941 787.581 0.779297 817.213 0.779297 846.845C0.779297 975.509 101.401 1079.22 235.564 1079.22C346.326 1079.22 434.468 1008.26 503.109 934.18C571.751 1008.26 659.892 1079.22 770.655 1079.22C904.817 1079.22 1006.22 975.509 1006.22 846.845C1006.22 817.213 999.979 787.581 989.839 760.289C981.259 737.675 958.638 687.769 949.278 666.715ZM503.109 810.195C447.728 738.455 396.247 649.56 396.247 577.819C396.247 506.079 446.948 470.209 503.109 470.209C559.27 470.209 610.751 508.419 610.751 577.819C610.751 647.22 558.49 738.455 503.109 810.195ZM770.655 998.902C688.628 998.902 618.271 941.557 555.955 872.656C620.205 792.541 691.093 679.121 691.093 577.819C691.093 458.513 598.271 389.892 503.109 389.892C407.947 389.892 315.906 458.513 315.906 577.819C315.906 679.098 386.294 792.478 450.318 872.593C387.995 941.526 317.614 998.902 235.564 998.902C146.642 998.902 81.1209 931.061 81.1209 846.845C81.1209 826.57 84.241 807.856 91.2611 788.361C98.2812 770.426 120.902 720.52 130.262 701.025C203.583 541.17 282.365 380.534 364.267 220.679C379.087 191.047 404.047 141.921 422.768 119.307C443.048 94.3538 471.129 81.0975 503.109 81.0975C535.09 81.0975 563.17 94.3538 583.451 119.307C602.171 141.921 627.132 191.047 641.952 220.679C723.854 380.534 802.635 541.17 875.957 701.025C885.317 720.52 907.937 770.426 914.957 788.361C921.978 807.856 925.878 826.57 925.878 846.845C925.878 931.061 859.576 998.902 770.655 998.902Z" /></svg>
+      <% end %>
+
+      <div class="hidden md:flex space-x-10">
+        <div class="flex flex-col items-center cursor-pointer border-b-2 border-black pb-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+          <span class="text-xs font-semibold mt-1">Homes</span>
+        </div>
+        <div class="flex flex-col items-center cursor-pointer text-gray-500 hover:text-black">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>
+          <span class="text-xs font-medium mt-1">Experiences</span>
+        </div>
+      </div>
+
+      <div class="relative group">
+        <button type="button" class="flex items-center gap-3 border rounded-full p-2 pl-3 hover:shadow-md transition bg-white">
+          <svg class="h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          <div class="h-8 w-8 bg-gray-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
+            <% if user_signed_in? %><%= current_user.email[0].upcase %><% else %>U<% end %>
+          </div>
+        </button>
+        <div class="dropdown-menu hidden absolute right-0 mt-2 w-56 bg-white shadow-2xl rounded-xl py-2 z-50 border border-gray-100">
+          <% if user_signed_in? %>
+            <div class="px-4 py-2 text-sm font-bold border-b">Hello, <%= current_user.email.split('@').first %></div>
+            <%= link_to "Sign out", destroy_user_session_path, data: { turbo_method: :delete }, class: "block px-4 py-2 text-sm text-red-600 hover:bg-gray-100" %>
+          <% else %>
+            <%= link_to "Sign up", new_user_registration_path, class: "block px-4 py-2 text-sm font-bold hover:bg-gray-100" %>
+            <%= link_to "Log in", new_user_session_path, class: "block px-4 py-2 text-sm hover:bg-gray-100" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex justify-center pb-6 mt-2">
+      <%= form_with url: listings_path, method: :get, local: true, class: "flex items-center border border-gray-300 rounded-full shadow-md hover:shadow-lg pl-8 pr-2 py-2 w-full max-w-3xl" do |f| %>
+        <div class="flex flex-col flex-1 pr-4">
+          <label class="text-[11px] font-extrabold uppercase">Where</label>
+          <%= f.text_field :city, placeholder: "Search city", value: params[:city], class: "border-none p-0 focus:ring-0 text-sm bg-transparent w-full" %>
+        </div>
+        <div class="flex flex-col flex-1 px-8 border-l border-r">
+          <label class="text-[11px] font-extrabold uppercase">When</label>
+          <input type="text" id="display-date" placeholder="Add dates" class="border-none p-0 focus:ring-0 text-sm bg-transparent cursor-pointer" readonly>
+          <%= hidden_field_tag :start_date, params[:start_date], id: "start_date" %>
+          <%= hidden_field_tag :end_date, params[:end_date], id: "end_date" %>
+        </div>
+        <div class="flex items-center flex-1 pl-8 justify-between">
+          <div class="flex flex-col">
+            <label class="text-[11px] font-extrabold uppercase">Who</label>
+            <%= f.number_field :guests, placeholder: "Add guests", value: params[:guests], min: 1, class: "border-none p-0 focus:ring-0 text-sm bg-transparent w-20" %>
+          </div>
+          <button type="submit" class="bg-[#FF385C] text-white p-3.5 rounded-full"><svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="4" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></button>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</header>

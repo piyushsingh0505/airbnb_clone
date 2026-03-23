@@ -1,0 +1,97 @@
+<div class="sticky top-[80px] z-40 bg-white border-b border-gray-100 mb-2">
+  <div class="max-w-[1600px] mx-auto px-4 md:px-10 flex items-center gap-8 overflow-x-auto no-scrollbar py-4">
+    
+    <%# Categories Items %>
+    <div class="flex flex-col items-center gap-2 min-w-fit cursor-pointer opacity-60 hover:opacity-100 transition border-b-2 border-transparent hover:border-black pb-2 group">
+      <img src="https://a0.muscache.com/pictures/3fb523a0-b622-4323-baa1-3f422fe0f5d8.jpg" width="24" height="24">
+      <span class="text-[12px] font-medium">Amazing pools</span>
+    </div>
+
+    <div class="flex flex-col items-center gap-2 min-w-fit cursor-pointer opacity-60 hover:opacity-100 transition border-b-2 border-transparent hover:border-black pb-2">
+      <img src="https://a0.muscache.com/pictures/10ce1091-d8b0-4a8a-8a6b-2207de2c1073.jpg" width="24" height="24">
+      <span class="text-[12px] font-medium">Beachfront</span>
+    </div>
+
+    <div class="flex flex-col items-center gap-2 min-w-fit cursor-pointer opacity-60 hover:opacity-100 transition border-b-2 border-transparent hover:border-black pb-2">
+      <img src="https://a0.muscache.com/pictures/c027ff2d-569e-4221-a827-359c36769112.jpg" width="24" height="24">
+      <span class="text-[12px] font-medium">Farms</span>
+    </div>
+
+    <div class="flex flex-col items-center gap-2 min-w-fit cursor-pointer opacity-60 hover:opacity-100 transition border-b-2 border-transparent hover:border-black pb-2">
+      <img src="https://a0.muscache.com/pictures/ed8b9e47-609b-44c2-9f4c-f69172f6df90.jpg" width="24" height="24">
+      <span class="text-[12px] font-medium">Iconic cities</span>
+    </div>
+
+    <div class="flex flex-col items-center gap-2 min-w-fit cursor-pointer opacity-60 hover:opacity-100 transition border-b-2 border-transparent hover:border-black pb-2">
+      <img src="https://a0.muscache.com/pictures/1b6a1acd-efc6-405a-93a0-11756b3bc4f7.jpg" width="24" height="24">
+      <span class="text-[12px] font-medium">Castles</span>
+    </div>
+
+    <div class="flex flex-col items-center gap-2 min-w-fit cursor-pointer opacity-60 hover:opacity-100 transition border-b-2 border-transparent hover:border-black pb-2">
+      <img src="https://a0.muscache.com/pictures/35919456-dfef-4347-a305-cf576686641b.jpg" width="24" height="24">
+      <span class="text-[12px] font-medium">Tiny homes</span>
+    </div>
+
+    <div class="flex flex-col items-center gap-2 min-w-fit cursor-pointer opacity-60 hover:opacity-100 transition border-b-2 border-transparent hover:border-black pb-2">
+      <img src="https://a0.muscache.com/pictures/ca25ad69-de09-4a72-a331-afc05191c74d.jpg" width="24" height="24">
+      <span class="text-[12px] font-medium">Camping</span>
+    </div>
+
+    <div class="flex flex-col items-center gap-2 min-w-fit cursor-pointer opacity-60 hover:opacity-100 transition border-b-2 border-transparent hover:border-black pb-2">
+      <img src="https://a0.muscache.com/pictures/8b44f770-7156-4c7b-b4d3-d9257c3ad9a4.jpg" width="24" height="24">
+      <span class="text-[12px] font-medium">Arctic</span>
+    </div>
+  </div>
+</div>
+
+<div class="max-w-[1600px] mx-auto px-4 md:px-10 py-6">
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-6 gap-y-10">
+    
+    <% @listings.each do |listing| %>
+      <%= link_to listing_path(listing), class: "group flex flex-col gap-2" do %>
+        
+        <div class="relative aspect-square w-full overflow-hidden rounded-xl bg-gray-200">
+          <% if listing.image_url.present? %>
+            <img src="<%= listing.image_url %>" 
+                 class="h-full w-full object-cover group-hover:scale-105 transition duration-500 ease-in-out" 
+                 alt="<%= listing.city %>">
+          <% else %>
+            <div class="flex items-center justify-center h-full text-gray-400 text-xs">No Image</div>
+          <% end %>
+
+          <div class="absolute top-3 right-3 p-1">
+            <svg viewBox="0 0 32 32" class="h-6 w-6 stroke-white stroke-[2px] fill-black/30 hover:fill-[#FF385C] transition">
+              <path d="m16 28c7-4.733 14-10 14-17 0-3.866-3.134-7-7-7-2.359 0-4.45 1.123-5.76 2.854l-1.24 1.646-1.24-1.646c-1.31-1.731-3.401-2.854-5.76-2.854-3.866 0-7 3.134-7 7 0 7 7 12.267 14 17z"></path>
+            </svg>
+          </div>
+        </div>
+
+        <div class="flex flex-col">
+          <div class="flex justify-between items-center">
+            <span class="font-bold text-[15px] text-gray-900"><%= listing.city %>, India</span>
+            <div class="flex items-center gap-1 text-[14px]">
+              <span class="text-[10px]">★</span> 
+              <span class="font-light"><%= listing.rating || "New" %></span>
+            </div>
+          </div>
+          
+          <p class="text-gray-500 text-[15px] font-light truncate">
+            <%= listing.headline %>
+          </p>
+          
+          <p class="mt-1 text-[15px]">
+            <span class="font-bold text-gray-900">₹<%= number_with_delimiter(listing.price_cents / 100) %></span> 
+            <span class="font-light text-gray-600">night</span>
+          </p>
+        </div>
+      <% end %>
+    <% end %>
+
+  </div>
+</div>
+
+<style>
+  /* Hide scrollbar logic */
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+</style>

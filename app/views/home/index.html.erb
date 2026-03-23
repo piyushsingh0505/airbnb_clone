@@ -1,0 +1,49 @@
+<%# Categories Section (Airbnb Style) %>
+<%= render "home/categories" if lookup_context.exists?("home/_categories") %>
+
+<div class="max-w-[2520px] mx-auto xl:px-20 md:px-10 sm:px-2 px-4 py-8">
+  <%# GRID SYSTEM: Mobile pe 1, Tablet pe 2, Laptop pe 3, Desktop pe 4/5 cards %>
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8">
+    
+    <% @listings.each do |listing| %>
+      <%# Har card ka alag partial call ho raha hai ya direct code %>
+      <div class="group cursor-pointer flex flex-col gap-2">
+        
+        <%# Image Container: Aspect Square se image stretch nahi hogi %>
+        <div class="aspect-square relative overflow-hidden rounded-xl bg-gray-200">
+          <% if listing.image_url.present? %>
+            <img 
+              src="<%= listing.image_url %>" 
+              class="object-cover h-full w-full group-hover:scale-110 transition duration-500 ease-in-out"
+            >
+          <% end %>
+
+          <%# Heart Icon Overlay %>
+          <div class="absolute top-3 right-3">
+            <svg viewBox="0 0 32 32" class="h-6 w-6 stroke-white stroke-[2px] fill-black/30 hover:fill-[#FF385C] transition">
+              <path d="m16 28c7-4.733 14-10 14-17 0-3.866-3.134-7-7-7-2.359 0-4.45 1.123-5.76 2.854l-1.24 1.646-1.24-1.646c-1.31-1.731-3.401-2.854-5.76-2.854-3.866 0-7 3.134-7 7 0 7 7 12.267 14 17z"></path>
+            </svg>
+          </div>
+        </div>
+
+        <%# Info Section %>
+        <div class="flex flex-col gap-0.5">
+          <div class="flex flex-row items-center justify-between">
+            <span class="font-bold text-[15px]"><%= listing.city %>, India</span>
+            <div class="flex flex-row items-center gap-1">
+              <span class="text-[12px]">★</span>
+              <span class="font-light text-gray-600"><%= listing.rating || "5.0" %></span>
+            </div>
+          </div>
+          <p class="font-light text-gray-500 text-sm truncate"><%= listing.headline %></p>
+          <p class="font-light text-gray-500 text-sm">Mar 20 – 25</p>
+          <p class="mt-1 flex items-center gap-1">
+            <span class="font-bold text-[15px]">₹<%= number_with_delimiter(listing.price_cents / 100) %></span>
+            <span class="font-light">night</span>
+          </p>
+        </div>
+      </div>
+    <% end %>
+
+  </div>
+</div>

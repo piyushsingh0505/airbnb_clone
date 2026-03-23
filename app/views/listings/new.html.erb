@@ -1,0 +1,52 @@
+<div class="max-w-2xl mx-auto bg-white p-8 border border-gray-200 rounded-2xl shadow-sm mt-10">
+  <h1 class="text-3xl font-bold mb-6 text-gray-900">Airbnb your home</h1>
+
+  <%= form_with(model: @listing, local: true, class: "space-y-6") do |f| %>
+    
+    <% if @listing.errors.any? %>
+      <div class="bg-red-50 p-4 rounded-lg text-red-700 text-sm">
+        <h2><%= pluralize(@listing.errors.count, "error") %> prohibited this listing from being saved:</h2>
+        <ul class="list-disc pl-5 mt-2">
+          <% @listing.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div>
+      <%= f.label :title, "Property Title", class: "block text-sm font-semibold mb-1" %>
+      <%= f.text_field :title, placeholder: "e.g. Cozy Beachfront Villa", class: "w-full border-gray-300 rounded-lg shadow-sm focus:ring-[#FF385C] focus:border-[#FF385C]" %>
+    </div>
+
+    <div>
+      <%= f.label :location, "Location (City, Country)", class: "block text-sm font-semibold mb-1" %>
+      <%= f.text_field :location, placeholder: "e.g. Mumbai, India", class: "w-full border-gray-300 rounded-lg shadow-sm focus:ring-[#FF385C] focus:border-[#FF385C]" %>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <%= f.label :price, "Price per night (₹)", class: "block text-sm font-semibold mb-1" %>
+        <%= f.number_field :price, class: "w-full border-gray-300 rounded-lg shadow-sm focus:ring-[#FF385C] focus:border-[#FF385C]" %>
+      </div>
+
+      <div>
+        <%= f.label :max_guests, "Guests Allowed", class: "block text-sm font-semibold mb-1" %>
+        <%= f.number_field :max_guests, class: "w-full border-gray-300 rounded-lg shadow-sm focus:ring-[#FF385C] focus:border-[#FF385C]" %>
+      </div>
+    </div>
+
+    <div>
+      <%= f.label :image, "Upload Photo", class: "block text-sm font-semibold mb-1" %>
+      <%= f.file_field :image, class: "w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200 cursor-pointer" %>
+    </div>
+
+    <div class="pt-4">
+      <%= f.submit "Create Listing", class: "w-full bg-[#FF385C] text-white font-bold py-3 rounded-lg hover:bg-[#E31C5F] transition cursor-pointer" %>
+    </div>
+
+    <div class="text-center mt-4">
+      <%= link_to 'Back to Home', root_path, class: "text-sm text-gray-600 underline hover:text-black" %>
+    </div>
+  <% end %>
+</div>

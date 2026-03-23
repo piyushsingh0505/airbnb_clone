@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Airbnb | Vacation Rentals, Cabins, Beach Houses & More</title>
+    <link rel="icon" type="image/x-icon" href="https://a0.muscache.com/airbnb/static/logotype_favicon-21cc8e6c6a2cca43f061d2dc3e0a5ca1.ico">
+    
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    
+    <style>
+      /* Airbnb Style CSS */
+      .group:hover .dropdown-menu { display: block; }
+      
+      /* Slider Buttons styling */
+      .swiper-button-next, .swiper-button-prev { 
+        color: black !important; background: white; width: 30px !important; height: 30px !important; 
+        border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border: 1px solid #ddd;
+      }
+      .swiper-button-next:after, .swiper-button-prev:after { font-size: 10px !important; font-weight: bold; }
+      .swiper-pagination-bullet-active { background: white !important; }
+    </style>
+  </head>
+
+  <body class="bg-white text-gray-900"> <%= render "layouts/navbar" %>
+
+    <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+      <%= yield %>
+    </main>
+
+    <script>
+      document.addEventListener("turbo:load", function() {
+        // 1. Initialize Calendar
+        const dateInput = document.getElementById("display-date");
+        if (dateInput) {
+          flatpickr(dateInput, {
+            mode: "range",
+            minDate: "today",
+            dateFormat: "Y-m-d",
+            onClose: function(selectedDates, dateStr, instance) {
+              if (selectedDates.length === 2) {
+                document.getElementById('start_date').value = instance.formatDate(selectedDates[0], "Y-m-d");
+                document.getElementById('end_date').value = instance.formatDate(selectedDates[1], "Y-m-d");
+                dateInput.value = instance.formatDate(selectedDates[0], "M d") + " - " + instance.formatDate(selectedDates[1], "M d");
+              }
+            }
+          });
+        }
+
+        // 2. Initialize Swiper Slider (Yeh missing tha)
+        const swipers = document.querySelectorAll('.mySwiper');
+        swipers.forEach((el) => {
+          new Swiper(el, {
+            loop: true,
+            pagination: { el: el.querySelector('.swiper-pagination'), clickable: true },
+            navigation: { nextEl: el.querySelector('.swiper-button-next'), prevEl: el.querySelector('.swiper-button-prev') },
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
