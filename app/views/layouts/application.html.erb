@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="h-full bg-white">
   <head>
     <title>Airbnb | Vacation Rentals, Cabins, Beach Houses & More</title>
     <link rel="icon" type="image/x-icon" href="https://a0.muscache.com/airbnb/static/logotype_favicon-21cc8e6c6a2cca43f061d2dc3e0a5ca1.ico">
@@ -8,9 +8,11 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <%# Tailwind & JS Tags %>
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
 
+    <%# External Libraries (Flatpickr for Calendar & Swiper for Sliders) %>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     
@@ -18,28 +20,64 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     
     <style>
-      /* Airbnb Style CSS */
-      .group:hover .dropdown-menu { display: block; }
+      /* Smooth Scrolling */
+      html { scroll-behavior: smooth; }
       
-      /* Slider Buttons styling */
+      /* Swiper Custom Styling for Airbnb Look */
       .swiper-button-next, .swiper-button-prev { 
-        color: black !important; background: white; width: 30px !important; height: 30px !important; 
-        border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border: 1px solid #ddd;
+        color: black !important; 
+        background: rgba(255, 255, 255, 0.9); 
+        width: 32px !important; 
+        height: 32px !important; 
+        border-radius: 50%; 
+        box-shadow: 0 2px 4px rgba(0,0,0,0.18);
+        opacity: 0;
+        transition: opacity 0.2s ease;
       }
-      .swiper-button-next:after, .swiper-button-prev:after { font-size: 10px !important; font-weight: bold; }
-      .swiper-pagination-bullet-active { background: white !important; }
+      .swiper:hover .swiper-button-next, .swiper:hover .swiper-button-prev { opacity: 1; }
+      .swiper-button-next:after, .swiper-button-prev:after { font-size: 12px !important; font-weight: bold; }
+      .swiper-pagination-bullet { background: white !important; opacity: 0.6; }
+      .swiper-pagination-bullet-active { opacity: 1 !important; }
+
+      /* Hide Scrollbar for Categories */
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
   </head>
 
-  <body class="bg-white text-gray-900"> <%= render "layouts/navbar" %>
+  <body class="antialiased font-sans text-gray-900">
+    
+    <%# 1. Sticky Navbar Section %>
+    <header class="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-sm">
+      <%= render "layouts/navbar" %>
+    </header>
 
-    <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+    <%# 2. Flash Messages (Alerts for Login/Logout/Errors) %>
+    <% if notice || alert %>
+      <div class="fixed top-20 left-1/2 transform -translate-x-1/2 z-[100] w-full max-w-sm px-4">
+        <% if notice %>
+          <div class="bg-gray-900 text-white px-6 py-3 rounded-xl shadow-2xl text-sm font-medium text-center animate-bounce">
+            <%= notice %>
+          </div>
+        <% end %>
+        <% if alert %>
+          <div class="bg-red-500 text-white px-6 py-3 rounded-xl shadow-2xl text-sm font-medium text-center">
+            <%= alert %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <%# 3. Main Content Wrapper %>
+    <%# Padding top adjust kiya hai kyunki header sticky hai %>
+    <main class="min-h-screen">
       <%= yield %>
     </main>
 
+    <%# Scripts for Interaction %>
     <script>
       document.addEventListener("turbo:load", function() {
-        // 1. Initialize Calendar
+        // Flatpickr Logic (Calendar)
         const dateInput = document.getElementById("display-date");
         if (dateInput) {
           flatpickr(dateInput, {
@@ -48,23 +86,34 @@
             dateFormat: "Y-m-d",
             onClose: function(selectedDates, dateStr, instance) {
               if (selectedDates.length === 2) {
-                document.getElementById('start_date').value = instance.formatDate(selectedDates[0], "Y-m-d");
-                document.getElementById('end_date').value = instance.formatDate(selectedDates[1], "Y-m-d");
+                const start = document.getElementById('start_date');
+                const end = document.getElementById('end_date');
+                if (start) start.value = instance.formatDate(selectedDates[0], "Y-m-d");
+                if (end) end.value = instance.formatDate(selectedDates[1], "Y-m-d");
                 dateInput.value = instance.formatDate(selectedDates[0], "M d") + " - " + instance.formatDate(selectedDates[1], "M d");
               }
             }
           });
         }
 
-        // 2. Initialize Swiper Slider (Yeh missing tha)
+        // Swiper Logic (Image Sliders)
         const swipers = document.querySelectorAll('.mySwiper');
         swipers.forEach((el) => {
           new Swiper(el, {
-            loop: true,
+            loop: false,
             pagination: { el: el.querySelector('.swiper-pagination'), clickable: true },
-            navigation: { nextEl: el.querySelector('.swiper-button-next'), prevEl: el.querySelector('.swiper-button-prev') },
+            navigation: { 
+              nextEl: el.querySelector('.swiper-button-next'), 
+              prevEl: el.querySelector('.swiper-button-prev') 
+            },
           });
         });
+
+        // Flash Message Auto-Hide (3 seconds)
+        setTimeout(() => {
+          const flash = document.querySelector('.fixed.top-20');
+          if (flash) flash.style.display = 'none';
+        }, 3000);
       });
     </script>
   </body>
